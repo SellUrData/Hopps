@@ -37,6 +37,19 @@ jobs:
             -destination 'generic/platform=iOS Simulator' \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Check signing IDs
+        if: env.ASC_KEY_ID != ''
+        run: |
+          trim() { printf '%s' "$1" | tr -d '[:space:]"'; }
+          team=$(trim "$APPLE_TEAM_ID"); key=$(trim "$ASC_KEY_ID"); issuer=$(trim "$ASC_ISSUER_ID")
+          ok=1
+          [[ "$team" =~ ^[A-Z0-9]{10}$ ]] || { echo "::error::APPLE_TEAM_ID should be 10 uppercase letters/digits (got ${#team} chars)"; ok=0; }
+          [[ "$key" =~ ^[A-Z0-9]{10}$ ]] || { echo "::error::ASC_KEY_ID should be 10 uppercase letters/digits (got ${#key} chars)"; ok=0; }
+          [[ "$issuer" =~ ^[0-9a-f-]{36}$ ]] || { echo "::error::ASC_ISSUER_ID should be a 36-char UUID (got ${#issuer} chars)"; ok=0; }
+          [ "$team" != "$key" ] || { echo "::error::APPLE_TEAM_ID is the same as ASC_KEY_ID"; ok=0; }
+          [ $ok = 1 ] || exit 1
+          { echo "APPLE_TEAM_ID=$team"; echo "ASC_KEY_ID=$key"; echo "ASC_ISSUER_ID=$issuer"; } >> "$GITHUB_ENV"
+
       - name: Install App Store Connect API key
         if: env.ASC_KEY_ID != ''
         env:
