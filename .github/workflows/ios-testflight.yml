@@ -43,8 +43,18 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           mkdir -p ~/private_keys
-          printf '%s' "$ASC_KEY_P8" > ~/private_keys/AuthKey_$ASC_KEY_ID.p8
-          echo "ASC_KEY_PATH=$HOME/private_keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
+          KEY_FILE=~/private_keys/AuthKey_$ASC_KEY_ID.p8
+          # Accept the .p8 pasted with or without header lines, collapsed newlines, or base64-encoded.
+          raw=$(printf '%s' "$ASC_KEY_P8" | tr -d '\r')
+          decoded=$(printf '%s' "$raw" | tr -d ' \n\t' | base64 -D 2>/dev/null || true)
+          case "$decoded" in *"BEGIN PRIVATE KEY"*) raw="$decoded" ;; esac
+          body=$(printf '%s' "$raw" | sed -e 's/-----BEGIN PRIVATE KEY-----//' -e 's/-----END PRIVATE KEY-----//' | tr -d ' \n\t"')
+          { echo '-----BEGIN PRIVATE KEY-----'; printf '%s\n' "$body" | fold -w 64; echo '-----END PRIVATE KEY-----'; } > "$KEY_FILE"
+          if ! openssl pkey -in "$KEY_FILE" -noout 2>/dev/null; then
+            echo "::error::ASC_KEY_P8 is not a valid private key (body length ${#body}). Re-paste the full contents of AuthKey_XXXX.p8."
+            exit 1
+          fi
+          echo "ASC_KEY_PATH=$KEY_FILE" >> "$GITHUB_ENV"
 
       - name: Archive
         if: env.ASC_KEY_ID != ''
