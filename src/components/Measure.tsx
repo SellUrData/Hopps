@@ -106,6 +106,8 @@ export default function Measure({ settings, onJump, onDelete }: Props) {
     let frames = 0;
     let windowStart = -1;
     let lastProgress = 0;
+    const debugTrace = new URLSearchParams(location.search).has('debug') ? [] as unknown[] : null;
+    if (debugTrace) (window as unknown as { __vjTrace: unknown[] }).__vjTrace = debugTrace;
 
     const draw = (lm: ReturnType<typeof detectPose>['landmarks'][number] | undefined, baseline: number | null, airborne: boolean) => {
       if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
@@ -140,7 +142,9 @@ export default function Measure({ settings, onJump, onDelete }: Props) {
           const t = source === 'live' ? (meta?.captureTime ?? now) / 1000 : mediaT / slowRef.current;
           const result = detectPose(landmarker, video);
           const lm = result.landmarks[0];
-          const update = detector.push(sampleFromLandmarks(t, lm));
+          const sample = sampleFromLandmarks(t, lm);
+          const update = detector.push(sample);
+          if (debugTrace) debugTrace.push({ ...sample, phase: update.phase, baseline: update.baseline, jump: update.jump });
           draw(lm, update.baseline, update.phase === 'airborne');
           if (update.phase !== lastPhase) {
             lastPhase = update.phase;

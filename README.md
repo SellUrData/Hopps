@@ -1,32 +1,30 @@
-# React + TypeScript + Vite
+# VertiJump
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A mobile web app (installable PWA) that measures vertical jump height with the phone camera and keeps an analytics dashboard.
 
-Currently, two official plugins are available:
+## How it works
+- **Pose tracking**: MediaPipe Pose Landmarker (lite) runs on the device in the browser. No video ever leaves the phone.
+- **Jump detection** (`src/lib/jumpDetector.ts`): finds the floor height of the toes while you stand still, flags takeoff when both feet rise above it, and on landing fits a ballistic parabola to the toe path in the air to get flight time `T`.
+- **Height** = `g·T²/8`, the flight-time method used by contact mats and force plates. No calibration needed.
+- **Storage**: `localStorage` on the device. Export as CSV, or back up and restore as JSON from Settings.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Screens
+- **Dashboard**: personal best, goal progress, avg of last 10 jumps, best in the last 7 days, progress since your first session, consistency, a per-session progress chart, a 14-day daily-best chart, the distribution of your jumps, and recent jumps. Filter by jump type.
+- **Measure**: live camera with skeleton overlay, or upload a clip (supports slow-mo clips that play back slowed down).
+- **History**: jumps grouped by session, with delete.
+- **Settings**: units (in/cm), name, goal, default jump type, data export.
 
-## React Compiler
+## Accuracy tips
+Use a still camera at knee height with your whole body in frame. Stand still briefly before each jump and keep your legs straight in the air. Higher fps gives better accuracy; slow-mo (120/240 fps) uploads are the most accurate.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Development
+```bash
+npm install        # also copies MediaPipe wasm + downloads the pose model (scripts/setup-assets.mjs)
+npm run dev        # http://localhost:5173 (camera needs https or localhost)
+npm test           # detector unit tests (synthetic jumps at 30–240 fps)
+npm run build
 ```
+Add `?debug` to the URL to expose the per-frame detector trace as `window.__vjTrace`.
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Shipping to the app stores
+The app is a static site. Deploy `dist/` to any HTTPS host (Vercel, Netlify, Cloudflare Pages) and users can "Add to Home Screen". To publish native iOS/Android apps, wrap it with Capacitor (`@capacitor/core`, `@capacitor/ios`, `@capacitor/android`).
