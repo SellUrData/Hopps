@@ -140,8 +140,8 @@ export default function Dashboard({ jumps, settings, onMeasure, onLoadDemo }: Pr
                   <XAxis dataKey="label" tick={{ fill: '#8b97ad', fontSize: 11 }} tickLine={false} axisLine={false} minTickGap={16} />
                   <YAxis tick={{ fill: '#8b97ad', fontSize: 11 }} tickLine={false} axisLine={false} domain={['dataMin - 3', 'dataMax + 2']} allowDecimals={false} />
                   <Tooltip {...tooltipStyle} formatter={(v, name) => [`${v} ${u}`, name === 'best' ? 'Best' : 'Average']} />
-                  <Area type="monotone" dataKey="best" stroke="#c6ff3d" strokeWidth={2.5} fill="url(#bestFill)" dot={{ r: 3, fill: '#c6ff3d' }} />
-                  <Line type="monotone" dataKey="avg" stroke="#38bdf8" strokeWidth={2} dot={false} strokeDasharray="5 4" />
+                  <Area isAnimationActive={false} type="monotone" dataKey="best" stroke="#c6ff3d" strokeWidth={2.5} fill="url(#bestFill)" dot={{ r: 3, fill: '#c6ff3d' }} />
+                  <Line isAnimationActive={false} type="monotone" dataKey="avg" stroke="#38bdf8" strokeWidth={2} dot={false} strokeDasharray="5 4" />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
@@ -157,7 +157,7 @@ export default function Dashboard({ jumps, settings, onMeasure, onLoadDemo }: Pr
                   <XAxis dataKey="day" tick={{ fill: '#8b97ad', fontSize: 10 }} tickLine={false} axisLine={false} interval={1} />
                   <YAxis tick={{ fill: '#8b97ad', fontSize: 11 }} tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip {...tooltipStyle} cursor={{ fill: 'rgba(255,255,255,0.04)' }} formatter={(v) => (Number(v) ? `${v} ${u}` : 'Rest day')} />
-                  <Bar dataKey="best" fill="#38bdf8" radius={[6, 6, 0, 0]} />
+                  <Bar isAnimationActive={false} dataKey="best" fill="#38bdf8" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -171,7 +171,7 @@ export default function Dashboard({ jumps, settings, onMeasure, onLoadDemo }: Pr
                   <XAxis dataKey="label" tick={{ fill: '#8b97ad', fontSize: 11 }} tickLine={false} axisLine={false} />
                   <YAxis tick={{ fill: '#8b97ad', fontSize: 11 }} tickLine={false} axisLine={false} allowDecimals={false} />
                   <Tooltip {...tooltipStyle} cursor={{ fill: 'rgba(255,255,255,0.04)' }} formatter={(v) => [`${v} jumps`, 'Count']} labelFormatter={(l) => `${l}+ ${u}`} />
-                  <Bar dataKey="count" fill="#a78bfa" radius={[6, 6, 0, 0]} />
+                  <Bar isAnimationActive={false} dataKey="count" fill="#a78bfa" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
