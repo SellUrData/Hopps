@@ -28,7 +28,18 @@ jobs:
           npm run build
           npx cap sync ios
 
+      - name: Compile check (no signing secrets configured)
+        if: env.ASC_KEY_ID == ''
+        run: |
+          xcodebuild build \
+            -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
+
       - name: Install App Store Connect API key
+        if: env.ASC_KEY_ID != ''
         env:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
@@ -37,6 +48,7 @@ jobs:
           echo "ASC_KEY_PATH=$HOME/private_keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
 
       - name: Archive
+        if: env.ASC_KEY_ID != ''
         run: |
           xcodebuild archive \
             -project ios/App/App.xcodeproj \
@@ -53,6 +65,7 @@ jobs:
             CURRENT_PROJECT_VERSION="${{ github.run_number }}"
 
       - name: Upload to TestFlight
+        if: env.ASC_KEY_ID != ''
         run: |
           sed "s/TEAM_ID/$APPLE_TEAM_ID/" ios/ExportOptions.plist > "$RUNNER_TEMP/ExportOptions.plist"
           xcodebuild -exportArchive \
