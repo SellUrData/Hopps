@@ -1,4 +1,4 @@
-package com.vertijump.app;
+package com.sellurdata.hopps;
 
 import com.getcapacitor.BridgeActivity;
 

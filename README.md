@@ -1,4 +1,4 @@
-# VertiJump
+# Hopps
 
 A mobile web app (installable PWA) that measures vertical jump height with the phone camera and keeps an analytics dashboard.
 

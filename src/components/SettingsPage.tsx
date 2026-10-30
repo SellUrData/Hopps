@@ -67,8 +67,8 @@ export default function SettingsPage({ data, onSettings, onImport, onLoadDemo, o
         <h2>Data</h2>
         <p className="muted">Everything is stored on this device only.</p>
         <div className="btn-row">
-          <button className="btn" disabled={!data.jumps.length} onClick={() => download(`vertijump-${stamp()}.csv`, jumpsToCsv(data.jumps), 'text/csv')}>Export CSV</button>
-          <button className="btn" onClick={() => download(`vertijump-${stamp()}.json`, JSON.stringify(data, null, 2), 'application/json')}>Backup JSON</button>
+          <button className="btn" disabled={!data.jumps.length} onClick={() => download(`hopps-${stamp()}.csv`, jumpsToCsv(data.jumps), 'text/csv')}>Export CSV</button>
+          <button className="btn" onClick={() => download(`hopps-${stamp()}.json`, JSON.stringify(data, null, 2), 'application/json')}>Backup JSON</button>
           <button className="btn" onClick={() => fileRef.current?.click()}>Restore JSON</button>
         </div>
         <input ref={fileRef} type="file" accept="application/json" hidden onChange={async (e) => {
@@ -80,7 +80,7 @@ export default function SettingsPage({ data, onSettings, onImport, onLoadDemo, o
             if (!Array.isArray(parsed.jumps)) throw new Error();
             onImport(parsed);
           } catch {
-            alert('That file is not a VertiJump backup.');
+            alert('That file is not a Hopps backup.');
           }
         }} />
         <div className="btn-row">
@@ -94,7 +94,7 @@ export default function SettingsPage({ data, onSettings, onImport, onLoadDemo, o
       <section className="card tips">
         <h2>How it works</h2>
         <p className="muted">
-          VertiJump tracks your toes with on-device pose detection (nothing is uploaded). It measures how long both feet are
+          Hopps tracks your toes with on-device pose detection (nothing is uploaded). It measures how long both feet are
           off the ground and converts flight time to height with h = g·t²/8 — the same method used by force-plate and
           contact-mat systems. No calibration or body measurements are needed.
         </p>

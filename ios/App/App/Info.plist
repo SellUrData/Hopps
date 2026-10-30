@@ -5,16 +5,16 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>VertiJump uses the camera to track your body and measure jump height. Video is processed on your device and never uploaded.</string>
+	<string>Hopps uses the camera to track your body and measure jump height. Video is processed on your device and never uploaded.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>VertiJump can analyze slow-motion jump videos from your library.</string>
+	<string>Hopps can analyze slow-motion jump videos from your library.</string>
 
   <key>CAPACITOR_DEBUG</key>
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>VertiJump</string>
+        <string>Hopps</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

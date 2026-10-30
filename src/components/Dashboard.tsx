@@ -54,13 +54,13 @@ export default function Dashboard({ jumps, settings, onMeasure, onLoadDemo }: Pr
         <header className="page-head">
           <div>
             <p className="muted">{greeting}</p>
-            <h1>VertiJump</h1>
+            <h1>Hopps</h1>
           </div>
         </header>
         <section className="card empty">
           <div className="empty-icon"><Icon name="bolt" size={36} /></div>
           <h2>Measure your first jump</h2>
-          <p className="muted">Point your phone camera at yourself, jump, and VertiJump calculates your vertical from your flight time.</p>
+          <p className="muted">Point your phone camera at yourself, jump, and Hopps calculates your vertical from your flight time.</p>
           <button className="btn primary" onClick={onMeasure}><Icon name="camera" /> Start measuring</button>
           <button className="btn ghost" onClick={onLoadDemo}>Load demo data</button>
         </section>

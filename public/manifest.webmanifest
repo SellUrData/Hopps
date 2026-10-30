@@ -1,6 +1,6 @@
 {
-  "name": "VertiJump",
-  "short_name": "VertiJump",
+  "name": "Hopps",
+  "short_name": "Hopps",
   "description": "Measure your vertical jump with your phone camera and track progress.",
   "start_url": "/",
   "display": "standalone",
