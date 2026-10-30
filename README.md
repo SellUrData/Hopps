@@ -28,3 +28,16 @@ Add `?debug` to the URL to expose the per-frame detector trace as `window.__vjTr
 
 ## Shipping to the app stores
 The app is a static site. Deploy `dist/` to any HTTPS host (Vercel, Netlify, Cloudflare Pages) and users can "Add to Home Screen". To publish native iOS/Android apps, wrap it with Capacitor (`@capacitor/core`, `@capacitor/ios`, `@capacitor/android`).
+
+## Native apps (Capacitor)
+
+`android/` and `ios/` are Capacitor projects wrapping the web build.
+
+```bash
+npm run build && npx cap sync          # copy web build into native projects
+cd android && ./gradlew assembleDebug  # APK: android/app/build/outputs/apk/debug/app-debug.apk (JDK 21 + Android SDK)
+npx cap open ios                       # macOS + Xcode: set signing team, then Run / Archive
+```
+
+Camera permission strings live in `android/app/src/main/AndroidManifest.xml` and `ios/App/App/Info.plist`.
+Icons/splash are generated from `assets/` with `npx @capacitor/assets generate`.
