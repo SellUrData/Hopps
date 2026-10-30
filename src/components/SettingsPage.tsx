@@ -35,13 +35,13 @@ export default function SettingsPage({ data, onSettings, onImport, onLoadDemo, o
           Name
           <input value={s.name} placeholder="Athlete" onChange={(e) => set({ name: e.target.value })} />
         </label>
-        <label>
-          Units
+        <div className="field" role="group" aria-labelledby="units-label">
+          <span id="units-label">Units</span>
           <div className="segmented">
-            <button className={s.units === 'in' ? 'on' : ''} onClick={() => set({ units: 'in' })}>Inches</button>
-            <button className={s.units === 'cm' ? 'on' : ''} onClick={() => set({ units: 'cm' })}>Centimeters</button>
+            <button aria-pressed={s.units === 'in'} className={s.units === 'in' ? 'on' : ''} onClick={() => set({ units: 'in' })}>Inches</button>
+            <button aria-pressed={s.units === 'cm'} className={s.units === 'cm' ? 'on' : ''} onClick={() => set({ units: 'cm' })}>Centimeters</button>
           </div>
-        </label>
+        </div>
         <label>
           Default jump type
           <select value={s.defaultType} onChange={(e) => set({ defaultType: e.target.value as JumpType })}>
