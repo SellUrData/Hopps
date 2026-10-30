@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VertiJump</string>
+    <string name="title_activity_main">VertiJump</string>
+    <string name="package_name">com.vertijump.app</string>
+    <string name="custom_url_scheme">com.vertijump.app</string>
+</resources>
