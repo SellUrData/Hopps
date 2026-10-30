@@ -277,7 +277,7 @@ export default function Measure({ settings, onJump, onDelete }: Props) {
       </div>
 
       <div className={`stage ${mirrored ? 'mirrored' : ''} ${phase === 'airborne' && running ? 'air' : ''}`}>
-        <video ref={videoRef} playsInline muted />
+        <video ref={videoRef} playsInline muted poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
         <canvas ref={canvasRef} />
         {running && <div className={`pill phase-${phase}`}>{PHASE_TEXT[phase]}</div>}
         {running && fps > 0 && <div className={`fps ${fps < 25 ? 'low' : ''}`}>{fps} fps</div>}
